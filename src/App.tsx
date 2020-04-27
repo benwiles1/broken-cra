@@ -1,6 +1,20 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React from "react";
+import logo from "./logo.svg";
+import "./App.css";
+
+interface MyContextValue {
+  data?: string;
+}
+const MyContext = React.createContext<MyContextValue>({});
+
+class MyComponent extends React.Component {
+  static contextType = MyContext;
+  declare context: React.ContextType<typeof MyContext>;
+
+  render() {
+    return <span>{this.context.data || "No context"}</span>;
+  }
+}
 
 function App() {
   return (
@@ -19,6 +33,9 @@ function App() {
           Learn React
         </a>
       </header>
+      <MyContext.Provider value={{ data: "My Data" }}>
+        <MyComponent />
+      </MyContext.Provider>
     </div>
   );
 }
